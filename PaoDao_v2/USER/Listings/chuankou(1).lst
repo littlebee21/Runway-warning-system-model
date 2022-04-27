@@ -1,0 +1,79 @@
+C51 COMPILER V9.01   CHUANKOU                                                              03/03/2019 17:58:50 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE CHUANKOU
+OBJECT MODULE PLACED IN ..\0BJECTS\chuankou.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\HAREWARE\chuankou.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HAREWARE;..\US
+                    -ER) DEBUG OBJECTEXTEND PRINT(.\Listings\chuankou.lst) TABS(2) OBJECT(..\0BJECTS\chuankou.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 函数名         :UsartInit()
+   3          * 函数功能     :设置串口（使用定时器1）      设置定时器0（）
+   4          * 波特率         ：9600
+   5          * 输入           : 无
+   6          * 输出           : 无
+   7          *******************************************************************************/
+   8          #include "reg52.h"
+   9          #include "main.h"
+  10          #include "chuankou.h"
+  11          #include "watch.h"
+  12          
+  13          void Usart_Init()
+  14          {
+  15   1        SCON=0X50;      //设置为工作方式1
+  16   1        TMOD=0X21;      //设置计数器1和0  计数器1工作方式2   计数器0工作方式1
+  17   1        PCON=0X80;      //波特率加倍
+  18   1        TH1=0XFA;       //计数器初始值设置，注意波特率是4800的
+  19   1        TL1=0XFA;
+  20   1        
+  21   1      //  ES=1;           //打开接收中断
+  22   1      //  EA=1;           //打开总中断
+  23   1      //  ET0=1;                //打开定时器0中断
+  24   1        TR1=1;          //打开计数器1
+  25   1      //  TR0=1;          //打开计数器0
+  26   1      }
+  27          
+  28          
+  29          
+  30          
+  31          void Send_Warning()
+  32          {
+  33   1        char Tem=0;
+  34   1        Tem=Taxiway_Watch;    //寄存器 的值装入变量
+  35   1        SBUF=Tem;
+  36   1        while(!TI);
+  37   1        TI=0;
+  38   1      }
+  39          
+  40          //要求 
+  41          //接受一段时间后自动解除 
+  42          char Receive_L_Signal() 
+  43          { 
+  44   1        char Tem=0;
+  45   1        RI=0;
+  46   1        Tem=SBUF;
+  47   1        if(Tem==0x90)
+  48   1        { return 1;
+  49   2        } 
+  50   1        else
+  51   1        { return 0;
+  52   2        }
+  53   1      }
+
+C51 COMPILER V9.01   CHUANKOU                                                              03/03/2019 17:58:50 PAGE 2   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     53    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

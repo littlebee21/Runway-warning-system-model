@@ -1,0 +1,8 @@
+"..\0BJECTS\STARTUP.obj",
+"..\0BJECTS\main.obj",
+"..\0BJECTS\exti.obj",
+"..\0BJECTS\chuankou.obj",
+"..\0BJECTS\led.obj",
+"..\0BJECTS\watch.obj" 
+TO "..\0BJECTS\paodao_v2" 
+PRINT(".\Listings\paodao_v2.m51")

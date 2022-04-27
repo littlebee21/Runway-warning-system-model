@@ -1,0 +1,56 @@
+C51 COMPILER V9.01   EXTI_CHEEK                                                            02/24/2019 00:20:42 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE EXTI_CHEEK
+OBJECT MODULE PLACED IN .\Objects\exti_cheek.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\HAREWARE\exti_cheek.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRI
+                    -NT(.\Listings\exti_cheek.lst) TABS(2) OBJECT(.\Objects\exti_cheek.obj)
+
+line level    source
+
+   1          /*********************************************************************************************
+   2          函数名：定时/计数器初始化函数
+   3          调  用：T_C_init();
+   4          参  数：无
+   5          返回值：无
+   6          结  果：设置SFR中T/C1和（或）T/C0相关参数
+   7          备  注：本函数控制T/C1和T/C0，不需要使用的部分可用//屏蔽
+   8          /**********************************************************************************************/
+   9          void T0_init (void){
+  10   1        TMOD=0X21;      //设置计数器1和0  计数器1工作方式2   计数器0工作方式1
+*** ERROR C202 IN LINE 10 OF ..\HAREWARE\EXTI_CHEEK.C: 'TMOD': undefined identifier
+  11   1        EA = 1; //中断总开关
+*** ERROR C202 IN LINE 11 OF ..\HAREWARE\EXTI_CHEEK.C: 'EA': undefined identifier
+  12   1        
+  13   1        
+  14   1        TH0 = 0x3C; //16位计数寄存器T0高8位
+*** ERROR C202 IN LINE 14 OF ..\HAREWARE\EXTI_CHEEK.C: 'TH0': undefined identifier
+  15   1        TL0 = 0xB0; //16位计数寄存器T0低8位（0x3CB0 = 50mS延时）
+*** ERROR C202 IN LINE 15 OF ..\HAREWARE\EXTI_CHEEK.C: 'TL0': undefined identifier
+  16   1        ET0 = 1; //T/C0中断开关
+*** ERROR C202 IN LINE 16 OF ..\HAREWARE\EXTI_CHEEK.C: 'ET0': undefined identifier
+  17   1        TR0 = 1; //T/C0启动开关
+*** ERROR C202 IN LINE 17 OF ..\HAREWARE\EXTI_CHEEK.C: 'TR0': undefined identifier
+  18   1      }
+  19          /**********************************************************************************************/
+  20          
+  21          
+  22          /*********************************************************************************************
+  23          函数名：定时/计数器0中断处理函数
+  24          调  用：[T/C0溢出后中断处理]
+  25          参  数：无
+  26          返回值：无
+  27          结  果：重新写入16位计数寄存器初始值，处理用户程序
+  28          备  注：必须允许中断并启动T/C本函数方可有效，重新写入初值需和T_C_init函数一致
+  29          /**********************************************************************************************/
+  30          void T0 (void) interrupt 1  using 1{ //切换寄存器组到1
+  31   1        TH0 = 0x3C; //16位计数寄存器T0高8位（重新写入初值）
+*** ERROR C202 IN LINE 31 OF ..\HAREWARE\EXTI_CHEEK.C: 'TH0': undefined identifier
+  32   1        TL0 = 0xB0; //16位计数寄存器T0低8位（0x3CB0 = 50mS延时）
+*** ERROR C202 IN LINE 32 OF ..\HAREWARE\EXTI_CHEEK.C: 'TL0': undefined identifier
+  33   1        
+  34   1        //函数内容
+  35   1      }
+  36          /**********************************************************************************************/
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  8 ERROR(S)

@@ -1,0 +1,104 @@
+C51 COMPILER V9.01   WATCH                                                                 03/03/2019 17:58:50 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE WATCH
+OBJECT MODULE PLACED IN ..\0BJECTS\watch.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\HAREWARE\watch.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HAREWARE;..\USER)
+                    - DEBUG OBJECTEXTEND PRINT(.\Listings\watch.lst) TABS(2) OBJECT(..\0BJECTS\watch.obj)
+
+line level    source
+
+   1          #include "reg52.h"
+   2          #include "main.h"
+   3          #include "watch.h"
+   4          
+   5          
+   6          char Watch_State()
+   7          {   
+   8   1          if(Runaway_have)           //道上有物体
+   9   1          { if(Watch_TakingOff())                 //检测到起飞 视为起飞
+  10   2            { return TAKINGOFF;
+  11   3            }
+  12   2            else if(Watch_Landing())          //收到降落信号 视为降落 
+  13   2            { return LANDING;               
+  14   3            }
+  15   2            else                                //其余情况视为 道路占用滑行
+  16   2            { return ROAD_OCCUPY;
+  17   3            }   
+  18   2          }
+  19   1          else                     // 道上没有物体
+  20   1          {                  
+  21   2            if(Watch_Landing())         //收到降落信号  视为降落
+  22   2            { return LANDING;               
+  23   3            }
+  24   2            else                      
+  25   2            { return NOTHING;               //视为没有使用
+  26   3            }
+  27   2          }
+  28   1          
+  29   1      }
+  30          char Watch_Irrupt()
+  31          {
+  32   1        if(Taxiway_have)
+  33   1        {   return 1;
+  34   2        }
+  35   1        else 
+  36   1        {   return 0;
+  37   2        }
+  38   1      }
+  39          
+  40          
+  41          
+  42          
+  43          
+  44          
+  45          char Watch_TakingOff()
+  46          { 
+  47   1        char Time_Between=0;    //检测的时间变量
+  48   1        if(Test_Speed_have)                //检测到有通过开始计时                                  //
+  49   1        { Time_Between++;     //定时器中断的计时功能使用
+  50   2          return 0;
+  51   2        }
+  52   1        else              //检测探测口没有
+  53   1        { if(Watch_Time_Ok)
+  54   2          { Time_Between=0;
+C51 COMPILER V9.01   WATCH                                                                 03/03/2019 17:58:50 PAGE 2   
+
+  55   3            return 1;
+  56   3          }
+  57   2          else
+  58   2          { return 0;
+  59   3          }   
+  60   2        }
+  61   1      }
+  62          
+  63          
+  64          
+  65          
+  66          
+  67          
+  68          char Watch_Landing()
+  69          { 
+  70   1        if(Receive_L_Signal())
+  71   1        { return 1;
+  72   2        }
+  73   1        else
+  74   1        { return 0;
+  75   2        }
+  76   1      }
+  77          
+  78          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    101    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
